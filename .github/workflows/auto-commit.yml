@@ -3,9 +3,10 @@ name: Auto Commit JS/TS File
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/5 * * * *"  
+    - cron: "*/5 * * * *" 
 
-
+permissions:
+  contents: write 
 
 jobs:
   build:
@@ -20,25 +21,22 @@ jobs:
 
       - name: Create random JS & TS files
         run: |
-          random_number=$((10000000 + RANDOM % 900000000))
+          random_number=$((100000000 + RANDOM % 900000000))
+          timestamp=$(date)
 
           js_filename="${random_number}.js"
           ts_filename="${random_number}.ts"
 
-          echo "console.log('Hello from JavaScript file #${random_number}');" > "$js_filename"
-
+          echo "console.log('Generated at $timestamp');" > "$js_filename"
           echo "const greet = (name: string): void => {
-            console.log(\`Hello, \${name}!\`);
+            console.log(\`Hello, \${name}! ($timestamp)\`);
           };
-          
           greet('TypeScript User');" > "$ts_filename"
-
-          echo "Created files: $js_filename and $ts_filename"
 
       - name: Commit and push files
         run: |
-          git config user.name 'AkbrMlnaa'
-          git config user.email 'nandanandee87@gmail.com'
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add .
           git commit -m "Add random JS and TS files"
-          git push
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
