@@ -1,0 +1,42 @@
+name: Auto Commit JS/TS File
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */3 * * *" 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Pull latest changes
+        run: git pull
+
+      - name: Create random JS & TS files
+        run: |
+          random_number=$((100000000 + RANDOM % 900000000))
+
+          js_filename="${random_number}.js"
+          ts_filename="${random_number}.ts"
+
+          echo "console.log('Hello from JavaScript file #${random_number}');" > "$js_filename"
+
+          echo "const greet = (name: string): void => {
+            console.log(\`Hello, \${name}!\`);
+          };
+          
+          greet('TypeScript User');" > "$ts_filename"
+
+          echo "Created files: $js_filename and $ts_filename"
+
+      - name: Commit and push files
+        run: |
+          git config user.name 'AkbrMlnaa'
+          git config user.email 'nandanandee87@gmail.com'
+          git add .
+          git commit -m "Add random JS and TS files"
+          git push
