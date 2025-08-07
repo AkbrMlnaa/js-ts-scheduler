@@ -20,15 +20,17 @@ jobs:
         run: |
           random_number=$((100000000 + RANDOM % 900000000))
           timestamp=$(date)
-
+      
           js_filename="${random_number}.js"
           ts_filename="${random_number}.ts"
-
+      
           echo "console.log('Generated at $timestamp');" > "$js_filename"
+      
           echo "const greet = (name: string): void => {
             console.log(\`Hello, \${name}! ($timestamp)\`);
           };
           greet('TypeScript User');" > "$ts_filename"
+
 
       - name: Commit and push files
         run: |
