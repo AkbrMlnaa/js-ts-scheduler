@@ -3,7 +3,8 @@ name: Auto Commit JS/TS File
 on:
   workflow_dispatch:
   schedule:
-  - cron: "*/3 * * * *"  # setiap 3 menit
+    - cron: "*/5 * * * *"  
+
 
 
 jobs:
@@ -19,7 +20,7 @@ jobs:
 
       - name: Create random JS & TS files
         run: |
-          random_number=$((100000000 + RANDOM % 900000000))
+          random_number=$((10000000 + RANDOM % 900000000))
 
           js_filename="${random_number}.js"
           ts_filename="${random_number}.ts"
