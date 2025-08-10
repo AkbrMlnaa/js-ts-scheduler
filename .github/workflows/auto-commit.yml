@@ -15,27 +15,32 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Hapus semua file JS & TS
+        run: |
+          find . -type f \( -name "*.js" -o -name "*.ts" \) -delete
 
       - name: Create random JS & TS files
         run: |
           random_number=$((100000000 + RANDOM % 900000000))
           timestamp=$(date)
-      
+
           js_filename="${random_number}.js"
           ts_filename="${random_number}.ts"
-      
+
           echo "console.log('Generated at $timestamp');" > "$js_filename"
-      
+
           echo "const greet = (name: string): void => {
             console.log(\`Hello, \${name}! ($timestamp)\`);
           };
           greet('TypeScript User');" > "$ts_filename"
-
 
       - name: Commit and push files
         run: |
           git config user.name 'AkbrMlnaa'
           git config user.email 'nandanandee87@gmail.com'
           git add .
-          git commit -m "Add random JS and TS files" || echo "No changes to commit"
+          git commit -m "Replace old JS/TS files with new ones" || echo "No changes to commit"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
