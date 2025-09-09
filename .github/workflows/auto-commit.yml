@@ -3,7 +3,7 @@ name: Auto Commit JS/TS File
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/5 * * * *"  
+    - cron: "*/40 * * * *"  
 
 permissions:
   contents: write
